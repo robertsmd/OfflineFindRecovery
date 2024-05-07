@@ -6,7 +6,6 @@ This key can be used to retrieve the device's location for a single day.
 import plistlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from csvutil import CSVWriter
 from findmy.keys import KeyType
 
 from findmy import FindMyAccessory
@@ -20,14 +19,23 @@ with PLIST_PATH.open("rb") as f:
     device_data = plistlib.load(f)
 
 # PRIVATE master key. 28 (?) bytes.
+print(device_data)
 MASTER_KEY = device_data["privateKey"]["key"]["data"][-28:]
 
 # "Primary" shared secret. 32 bytes.
-SKN = device_data["sharedSecret"]["key"]["data"]
+if 'sharedSecret' in device_data:
+    SKN = device_data["sharedSecret"]["key"]["data"]
+elif 'peerTrustSharedSecret' in device_data:
+    SKN = device_data["peerTrustSharedSecret"]["key"]["data"]
 
 # "Secondary" shared secret. 32 bytes.
 # This doesn't apply in case of MacBook, but is used for AirTags and other accessories.
-SKS = device_data["secureLocationsSharedSecret"]["key"]["data"]
+if 'secureLocationsSharedSecret' in device_data:
+    SKS = device_data["secureLocationsSharedSecret"]["key"]["data"]
+if 'secondarySharedSecret' in device_data:
+    SKS = device_data["secondarySharedSecret"]["key"]["data"]
+else:
+    SKS = SKN
 
 
 def main() -> None:
@@ -36,19 +44,20 @@ def main() -> None:
 
     # Generate keys for 2 days ahead
     now = datetime.now(tz=timezone.utc) + timedelta(hours=48)
-    lookup_time = paired_at.replace(
-        minute=paired_at.minute // 15 * 15,
+    seven_days_ago = datetime.now(tz=timezone.utc) + timedelta(days=-7)
+    lookup_time = seven_days_ago.replace(
+        minute=seven_days_ago.minute // 15 * 15,
         second=0,
         microsecond=0,
     ) + timedelta(minutes=15)
 
-    mycsv = CSVWriter('discovery-keys.csv')
+    mycsv = open('discovery-keys.csv', 'w')
 
     while lookup_time < now:
         keys = airtag.keys_at(lookup_time)
         for key in keys:
             if key.key_type == KeyType.PRIMARY:
-                mycsv.write(lookup_time, key.adv_key_b64, key.private_key_b64, key.key_type, key.hashed_adv_key_b64)
+                mycsv.write(f'{lookup_time};{key.adv_key_b64};{key.private_key_b64};{key.key_type};{key.hashed_adv_key_b64}\n')
 
         lookup_time += timedelta(minutes=15)
 
