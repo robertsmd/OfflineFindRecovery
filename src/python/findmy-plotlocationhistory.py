@@ -1,9 +1,6 @@
 import threading
-import signal
 import folium
 import json
-import pdb
-import sys
 from time import sleep
 
 with open('location_history.json') as f:
