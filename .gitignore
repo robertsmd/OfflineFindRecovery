@@ -1,0 +1,6 @@
+*.pyc
+**/*.pyc
+**/account.json
+**/decrypted.plist
+**/discovery-keys.csv
+**/location_history.json
