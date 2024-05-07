@@ -3,6 +3,7 @@ Example showing how to retrieve the primary key of your own AirTag, or any other
 
 This key can be used to retrieve the device's location for a single day.
 """
+import json
 import plistlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -14,12 +15,12 @@ from findmy import FindMyAccessory
 PLIST_PATH = Path("decrypted.plist")
 
 # == The variables below are auto-filled from the plist!! ==
-
 with PLIST_PATH.open("rb") as f:
     device_data = plistlib.load(f)
 
+print(json.dumps(device_data, indent=4))
+
 # PRIVATE master key. 28 (?) bytes.
-print(device_data)
 MASTER_KEY = device_data["privateKey"]["key"]["data"][-28:]
 
 # "Primary" shared secret. 32 bytes.
