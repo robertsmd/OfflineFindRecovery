@@ -34,6 +34,6 @@ folium.LayerControl(position='bottomright').add_to(map)
 
 x = threading.Thread(target=map.show_in_browser, daemon=True)
 x.start()
-sleep(0.5)
+sleep(1)
 raise KeyboardInterrupt
 x.join()
