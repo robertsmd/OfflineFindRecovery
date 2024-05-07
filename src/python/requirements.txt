@@ -1,1 +1,4 @@
 findmy
+folium
+typing_extensions
+bleak
