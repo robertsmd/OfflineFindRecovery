@@ -3,7 +3,6 @@
 //
 //  airtag-decryptor.swift
 //  
-//
 //  Created by Matus on 28/01/2024.
 //  https://gist.github.com/YeapGuy/f473de53c2a4e8978bc63217359ca1e4
 //
@@ -60,9 +59,12 @@ func data(fromHex hex: String) -> Data {
 }
 
 // -> Hex format key from `security find-generic-password -l 'BeaconStore' -g` "gena" attribute value
-let hexKey = "<YOUR_KEY>"
+// let hexKey = "<YOUR_KEY>"
+let hexKey = ProcessInfo.processInfo.environment["HEXKEY"] ?? ""
 // -> Path to the .record file
-let fileURL = URL(fileURLWithPath: "/Users/<USERNAME>/Downloads/<baUUID>.record")
+// let fileURL = URL(fileURLWithPath: "/Users/<USERNAME>/Downloads/<baUUID>.record")
+let filePath = ProcessInfo.processInfo.environment["RECORD_FILEPATH"] ?? ""
+let fileURL = URL(fileURLWithPath: filePath)
 
 // Convert hex key to Data
 let keyData = data(fromHex: hexKey)
