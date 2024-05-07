@@ -8,6 +8,7 @@ import plistlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from findmy.keys import KeyType
+from pprint import pprint
 
 from findmy import FindMyAccessory
 
@@ -18,7 +19,7 @@ PLIST_PATH = Path("decrypted.plist")
 with PLIST_PATH.open("rb") as f:
     device_data = plistlib.load(f)
 
-print(json.dumps(device_data, indent=4))
+pprint(device_data)
 
 # PRIVATE master key. 28 (?) bytes.
 MASTER_KEY = device_data["privateKey"]["key"]["data"][-28:]
