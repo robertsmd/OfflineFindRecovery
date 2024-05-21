@@ -18,12 +18,12 @@ do
     echo baUUID=$baUUID
 
     # get HEXKEY
-    export HEXKEY=`security find-generic-password -l "BeaconStore" -g | grep gena | awk -F' ' '{print $1}' | awk -F'=0x' '{print $NF}'`
+    export HEXKEY=`security find-generic-password -l "BeaconStore" | grep gena | awk -F' ' '{print $1}' | awk -F'=0x' '{print $NF}'`
     echo HEXKEY=$HEXKEY
 
     # find record filepath
-    # normally stored in RECORD_FILEPATH=/System/Volumes/Data/Users/$USER/Library/com.apple.icloud.searchpartyd/<SharedBeacons, OwnedBeacons>/<baUUID>.record
-    export RECORD_FILEPATH=`find /System/Volumes/Data/Users/$USER/Library/com.apple.icloud.searchpartyd/ -iname "$baUUID.record"`
+    # normally stored in RECORD_FILEPATH=~/Library/com.apple.icloud.searchpartyd/<SharedBeacons, OwnedBeacons>/<baUUID>.record
+    export RECORD_FILEPATH=`find ~/Library/com.apple.icloud.searchpartyd/ -iname "$baUUID.record"`
     echo RECORD_FILEPATH=$RECORD_FILEPATH
 
     # decrypt. produces decrypted.plist
