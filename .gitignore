@@ -1,5 +1,7 @@
 *.pyc
 **/*.pyc
+.DS_Store
+**/.DS_Store
 **/account.json
 **/decrypted.plist
 **/discovery-keys.csv
