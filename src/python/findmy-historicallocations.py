@@ -20,20 +20,20 @@ from findmy.reports import (
 # URL to (public or local) anisette server
 ANISETTE_SERVER = "http://localhost:6969"
 
-# Apple account details
-if 'APPLEID_EMAIL' in os.environ:
-    APPLEID_EMAIL = os.environ['APPLEID_EMAIL']
-else:
-    APPLEID_EMAIL = input("enter your apple id account email: ")
-
-if 'APPLEID_PASS' in os.environ:
-    APPLEID_PASS = os.environ['APPLEID_PASS']
-else:
-    APPLEID_PASS = getpass.getpass("enter your apple id password: ")
-
 logging.basicConfig(level=logging.DEBUG)
 
 async def login(account: AsyncAppleAccount) -> None:
+    # Apple account details
+    if 'APPLEID_EMAIL' in os.environ:
+        APPLEID_EMAIL = os.environ['APPLEID_EMAIL']
+    else:
+        APPLEID_EMAIL = input("enter your apple id account email: ")
+
+    if 'APPLEID_PASS' in os.environ:
+        APPLEID_PASS = os.environ['APPLEID_PASS']
+    else:
+        APPLEID_PASS = getpass.getpass("enter your apple id password: ")
+
     state = await account.login(APPLEID_EMAIL, APPLEID_PASS)
 
     if state == LoginState.REQUIRE_2FA:  # Account requires 2FA
@@ -74,7 +74,7 @@ async def fetch_reports(keys: list[KeyPair]) -> None:
         except FileNotFoundError:
             await login(acc)
             with acc_store.open("w+") as f:
-                json.dump(acc.export(), f)
+                json.dump(acc.export(), f, indent=4)
 
         print(f"Logged in as: {acc.account_name} ({acc.first_name} {acc.last_name})")
 
