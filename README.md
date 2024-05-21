@@ -12,7 +12,19 @@
 * A little bit of technical skills
 * Lost MacBook (or other Apple device) showing up in iCloud's Find My as offline, but location being updated from time to time via [Offline Find](https://support.apple.com/en-gb/guide/security/sece994d0126/web)
 
-## Steps
+## Automated script
+
+0. Get `baUUID`s for which you want to graph historical data. Use 1. from #Manual Steps below
+1. update `baUUIDarr` in `script.sh` to reflect the `baUUID`s obtained above
+2. run `source script.sh`
+
+This will create a graph and open the graph in a web browser to show the historical data.
+NOTE: historical data will not go farther back than 7 days.
+
+### Troubleshooting
+    - If running into error `line XX, in fetch_reports; reports = await acc.fetch_last_reports(keys)`, run `rm account.json` and re-login to your Apple ID
+
+## Manual Steps
 
 ### 1. Obtaining beacon keys
 First, you need to obtain the keypair which is being used to generate the broadcasting public key, along with a shared secret. This has to be done via acessing some files within MacOS. If you lost your MacBook, you can just sign-in to another one (your friend's for example) with your Apple ID and the files will sync there from iCloud. The files are encrypted, so you also need to access the decryption key from your Keychain.
