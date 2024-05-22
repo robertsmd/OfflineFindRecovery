@@ -63,8 +63,8 @@ func data(fromHex hex: String) -> Data {
 let hexKey = ProcessInfo.processInfo.environment["HEXKEY"] ?? ""
 // -> Path to the .record file
 // let fileURL = URL(fileURLWithPath: "/Users/<USERNAME>/Downloads/<baUUID>.record")
-let filePath = ProcessInfo.processInfo.environment["RECORD_FILEPATH"] ?? ""
-let fileURL = URL(fileURLWithPath: filePath)
+var filePath = ProcessInfo.processInfo.environment["RECORD_FILEPATH"] ?? ""
+var fileURL = URL(fileURLWithPath: filePath)
 
 // Convert hex key to Data
 let keyData = data(fromHex: hexKey)
@@ -76,6 +76,19 @@ do {
     let decryptedPlist = try decryptRecordFile(fileURL: fileURL, key: key)
     // Save decrypted plist as a file in the current directory
     let outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent("decrypted.plist")
+    try PropertyListSerialization.data(fromPropertyList: decryptedPlist, format: .xml, options: 0).write(to: outputURL)
+    print("Decrypted plist saved at:", outputURL.path)
+} catch {
+    print("Error:", error)
+}
+
+
+filePath = ProcessInfo.processInfo.environment["NAMINGRECORD_FILEPATH"] ?? ""
+fileURL = URL(fileURLWithPath: filePath)
+do {
+    let decryptedPlist = try decryptRecordFile(fileURL: fileURL, key: key)
+    // Save decrypted plist as a file in the current directory
+    let outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent("namingrecord_decrypted.plist")
     try PropertyListSerialization.data(fromPropertyList: decryptedPlist, format: .xml, options: 0).write(to: outputURL)
     print("Decrypted plist saved at:", outputURL.path)
 } catch {

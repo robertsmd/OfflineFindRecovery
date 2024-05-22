@@ -1,6 +1,7 @@
-import threading
-import folium
+import os
 import json
+import folium
+import threading
 from time import sleep
 
 with open('location_history.json') as f:
@@ -49,8 +50,13 @@ folium.PolyLine(locations, weight=1).add_to(feature_group)
 feature_group.add_to(map)
 folium.LayerControl(position='bottomright').add_to(map)
 
-x = threading.Thread(target=map.show_in_browser, daemon=True)
-x.start()
-sleep(1)
-raise KeyboardInterrupt
-x.join()
+if 'DEVICE_NAME' in os.environ:
+    DEVICE_NAME = os.environ['DEVICE_NAME']
+print(f'Showing location plot for \'{DEVICE_NAME}\'')
+
+map.show_in_browser()
+# x = threading.Thread(target=map.show_in_browser, daemon=True)
+# x.start()
+# sleep(1)
+# raise KeyboardInterrupt
+# x.join()
