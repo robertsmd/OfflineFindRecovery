@@ -6,9 +6,9 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 BAUUID_RECORD_PATH=~/Library/com.apple.icloud.searchpartyd/
 
 baUUIDarr=(
-    <baUUID1>
-    <baUUID2>
-    ...
+    # <baUUID1>
+    # <baUUID2>
+    # ...
 )
 
 echo baUUIDarr=$baUUIDarr

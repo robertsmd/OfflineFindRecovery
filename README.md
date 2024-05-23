@@ -12,6 +12,30 @@
 * A little bit of technical skills
 * Lost MacBook (or other Apple device) showing up in iCloud's Find My as offline, but location being updated from time to time via [Offline Find](https://support.apple.com/en-gb/guide/security/sece994d0126/web)
 
+```bash
+# open "terminal" by searching for "terminal" and clicking on it (cmd+space to open search)
+
+# install homebrew (command copied from https://brew.sh)
+# command will run for 5-10 minutes
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# set up environment to work with brew
+(echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> ~/.bash_profile
+eval "$(/usr/local/bin/brew shellenv)"
+
+# install python via brew
+brew install python3
+
+# clone this repository and install python requirements
+cd ~/Downloads
+git clone https://github.com/robertsmd/OfflineFindRecovery.git
+cd OfflineFindRecovery
+python3 -m pip install --break-system-packages -r ./src/python/requirements.txt
+
+# run the automated script
+source script.sh
+```
+
 ## Automated script
 
 0. Get `baUUID`s for which you want to graph historical data. Use 1. from #Manual Steps below
