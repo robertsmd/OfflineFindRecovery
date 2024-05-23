@@ -4,5 +4,6 @@
 **/.DS_Store
 **/account.json
 **/decrypted.plist
+**/namingrecord_decrypted.plist
 **/discovery-keys.csv
 **/location_history.json
