@@ -16,7 +16,7 @@ if [[ -z $baUUIDarr ]]; then
     echo "No values in baUUIDarr. Finding all baUUIDs from $BAUUID_RECORD_PATH"
     # baUUIDarr=`find $BAUUID_RECORD_PATH -iname "*-*-*-*-*.record" | awk -F'/' '{print $NF}' | awk -F'.record' '{print $1}'`
 
-    baUUIDarr = (
+    baUUIDarr=(
         $( find $BAUUID_RECORD_PATH -iname "*-*-*-*-*.record" | awk -F'/' '{print $NF}' | awk -F'.record' '{print $1}' )
     )
 
