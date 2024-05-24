@@ -22,7 +22,7 @@ dates = list(set(j['time'].split('T')[0] for j in location_history))
 dates.sort()
 
 # list of colors to use, redder side of rainbow matches older
-colors = ['darkred', 'red', 'orange', 'darkgreen', 'green', 'darkblue', 'blue', 'purple', 'pink']
+colors = ['darkred', 'red', 'orange', 'darkgreen', 'green', 'darkblue', 'blue', 'darkblue', 'darkpurple', 'purple', 'pink', 'white', 'lightgray', 'gray', 'black']
 # all_colors = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
 
 # map colors to days
@@ -53,6 +53,15 @@ folium.LayerControl(position='bottomright').add_to(map)
 if 'DEVICE_NAME' in os.environ:
     DEVICE_NAME = os.environ['DEVICE_NAME']
 print(f'Showing location plot for \'{DEVICE_NAME}\'')
+
+html_heading = f'''
+    <div style="position:fixed;top:0%;width:100%;text-align:center;z-index:1000000">
+        <h1>{DEVICE_NAME}</h1>
+        <h4>First observation: {location_history[0]['time']}</h4>
+        <h4>Last observation: {location_history[-1]['time']}</h4>
+    </div>
+'''
+map.get_root().html.add_child(folium.Element(html_heading))
 
 map.show_in_browser()
 # x = threading.Thread(target=map.show_in_browser, daemon=True)

@@ -44,11 +44,13 @@ def main() -> None:
     paired_at = device_data["pairingDate"].replace(tzinfo=timezone.utc)
     airtag = FindMyAccessory(MASTER_KEY, SKN, SKS, paired_at)
 
-    # Generate keys for 2 days ahead
-    now = datetime.now(tz=timezone.utc) + timedelta(hours=48)
-    seven_days_ago = datetime.now(tz=timezone.utc) + timedelta(days=-7)
-    lookup_time = seven_days_ago.replace(
-        minute=seven_days_ago.minute // 15 * 15,
+    # Generate keys for 0.5 days ahead and 15 days behind
+    previous_days = 15
+    future_days = 0.5
+    now = datetime.now(tz=timezone.utc) + timedelta(days=future_days)
+    previous_days_ago = datetime.now(tz=timezone.utc) + timedelta(days=-previous_days)
+    lookup_time = previous_days_ago.replace(
+        minute=previous_days_ago.minute // 15 * 15,
         second=0,
         microsecond=0,
     ) + timedelta(minutes=15)
