@@ -26,6 +26,9 @@ eval "$(/usr/local/bin/brew shellenv)"
 # install python via brew
 brew install python3
 
+# install docker via brew
+brew cask install docker
+
 # clone this repository and install python requirements
 cd ~/Downloads
 git clone https://github.com/robertsmd/OfflineFindRecovery.git
