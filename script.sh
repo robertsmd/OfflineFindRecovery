@@ -32,7 +32,8 @@ for i in "${baUUIDarr[@]}"; do
     rm decrypted.plist namingrecord_decrypted.plist discovery-keys.csv location_history.json
 
     # get HEXKEY
-    export HEXKEY=`security find-generic-password -l "BeaconStore" | grep gena | awk -F' ' '{print $1}' | awk -F'=0x' '{print $NF}'`
+    # it is printed to stderr, so 2>&1 pipes it with stdout for grepping and cutting with awk
+    export HEXKEY=`security find-generic-password -l "BeaconStore" -g 2>&1 | grep "password: 0x" | awk -F': 0x' '{print $NF}' | awk -F' ' '{print $1}'`
     echo HEXKEY=$HEXKEY
 
     # find record filepath
