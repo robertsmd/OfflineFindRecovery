@@ -19,7 +19,7 @@
 # command will run for 5-10 minutes
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# set up environment to work with brew
+# set up environment to work with brew using this command or a similar one that brew prints at the end of its install script for you to run
 (echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> ~/.bash_profile
 eval "$(/usr/local/bin/brew shellenv)"
 
@@ -27,13 +27,14 @@ eval "$(/usr/local/bin/brew shellenv)"
 brew install python3
 
 # install docker via brew
-brew cask install docker
+brew install --cask docker
 
 # clone this repository and install python requirements
 cd ~/Downloads
 git clone https://github.com/robertsmd/OfflineFindRecovery.git
 cd OfflineFindRecovery
-python3 -m pip install --break-system-packages -r ./src/python/requirements.txt
+python3 -m pip install -r ./src/python/requirements.txt --break-system-packages
+# if the above command errors, you may need to remove `--break-system-packages` from the end of the command
 
 # run the automated script
 source script.sh
