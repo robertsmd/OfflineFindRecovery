@@ -54,11 +54,26 @@ if 'DEVICE_NAME' in os.environ:
     DEVICE_NAME = os.environ['DEVICE_NAME']
 print(f'Showing location plot for \'{DEVICE_NAME}\'')
 
+html_range_slider = '''
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+    <script src="https://cdn.cdnhub.io/jQRangeSlider/5.8.3/jQAllRangeSliders-min.js"></script>
+    <link rel="stylesheet" id="themeCSS" href="https://cdn.cdnhub.io/jQRangeSlider/5.7.2/css/classic.min.css" type="text/css" />
+
+    <div id="slider" style="position:absolute;bottom:00%;width:100%;text-align:center;z-index:1000000"></div>
+    <script>
+        $(document).ready(function() {
+            $("#slider").dateRangeSlider();
+        });
+    </script>
+'''
+map.get_root().html.add_child(folium.Element(html_range_slider))
+
 html_heading = f'''
     <div style="position:fixed;top:0%;width:100%;text-align:center;z-index:1000000">
         <h1>{DEVICE_NAME}</h1>
         <h4>First observation: {location_history[0]['time']}</h4>
         <h4>Last observation: {location_history[-1]['time']}</h4>
+        <div id="slider"></div>
     </div>
 '''
 map.get_root().html.add_child(folium.Element(html_heading))
